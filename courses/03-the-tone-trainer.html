@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- social:start -->
+<meta name="description" content="Session 3 of 6. A real pitch tracker in your browser scores the shape of each tone against your own voice. Four synthetic speakers show what three scoring methods do: raw pitch in hertz gets a lower voice right 6 times in 23, the calibrated shape method 23 in 23, and scoring dictionary tones marks five correct tone changes wrong.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Learn with Phoebe">
+<meta property="og:title" content="The tone trainer - learn business chinese basic with phoebe">
+<meta property="og:description" content="Session 3 of 6. Shape, not height: why a tone scored in hertz fails every lower voice, and why calibration matters for a word on one level.">
+<meta property="og:url" content="https://phoebefu6.github.io/learn-business-chinese-basic-with-phoebe/courses/03-the-tone-trainer.html">
+<meta property="og:image" content="https://phoebefu6.github.io/learn-business-chinese-basic-with-phoebe/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The tone trainer - learn business chinese basic with phoebe">
+<meta name="twitter:description" content="Session 3 of 6. A pitch tracker in the browser, three scoring methods, four voices.">
+<meta name="twitter:image" content="https://phoebefu6.github.io/learn-business-chinese-basic-with-phoebe/assets/og-cover.png">
+<!-- social:end -->
+<title>Session 3 · The tone trainer - learn business chinese basic with phoebe</title>
+<link rel="stylesheet" href="../assets/style.css?v=1">
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="wrap">
+    <span class="crumb"><a href="../index.html">learn-business-chinese-basic-with-phoebe</a> / Session 3 of 6</span>
+    <button class="btn" id="toggle-all" type="button">Expand all</button>
+    <button class="btn primary" id="zoom-toggle" type="button">Projector zoom: off</button>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="eyebrow">Learn Business Chinese Basic with Phoebe · Session 3 of 6</div>
+    <h1>The tone <span class="accent">trainer</span></h1>
+    <p class="sub">Sessions 1 and 2 said a tone is a shape measured against your own voice. Tonight that claim is put to work by a real pitch tracker running in this page. It listens, finds your pitch a hundred times a second, cuts the stream into syllables, and compares each syllable's shape with the four tones. Before you use it on yourself, the page runs it on four synthetic voices, high, low, narrow and wide, with three ways of scoring. One way gets a lower voice right 6 times in 23. Another gets every voice right 23 times in 23. The difference is entirely in the arithmetic, and it is the reason "your pitch is too low" is never useful feedback.</p>
+    <div class="chip-row">
+      <span class="chip level">🔴 Bench night</span>
+      <span class="chip audience">A microphone helps; not required</span>
+      <span class="chip audience">Bring session 1's twelve words</span>
+      <span class="chip time">45 min</span>
+    </div>
+    <div class="agenda">
+      <span class="a1" style="flex:1">0-3 · Welcome</span>
+      <span class="a2" style="flex:3">3-14 · How a machine hears a tone</span>
+      <span class="a3" style="flex:6">14-40 · The bench, then your own voice</span>
+      <span class="a4" style="flex:1">40-45 · Q&amp;A</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="section" id="intro">
+    <div class="section-kicker">
+      <span class="klabel">Part 0</span>
+      <h2>Where we start</h2>
+    </div>
+    <p class="lede">A bench is a fixed set of speakers and a fixed set of phrases, so that when two scoring methods disagree, the only thing that differed was the method. The speakers here are synthetic: each is a hum whose pitch follows the right tone shape, at a voice height and range inside the usual adult ranges, not a recording of a person. That makes the bench repeatable, and it makes one thing very clear. Every number below is computed by the same tracker that will listen to you.</p>
+
+    <div class="legend">
+      <span class="pill">🎫 Clear all three quiz questions to stamp your passport</span>
+      <span class="pill">computed = by the tracker, in your browser</span>
+      <span class="pill">synthetic = the four bench voices</span>
+    </div>
+
+    <div class="callout win">
+      <p><strong>★ What you walk out with tonight.</strong> A calibrated voice profile, your score on the twelve words of session 1 judged by shape and not by height, the counted reason a hertz-based checker fails lower voices, and one tone you now know you miss.</p>
+    </div>
+  </section>
+
+  <section class="section" id="part-1">
+    <div class="section-kicker">
+      <span class="klabel">Part 1 · covers pitch tracking and contour scoring</span>
+      <h2>How a machine hears a tone</h2>
+      <span class="tag concept">6 min live</span>
+    </div>
+    <p class="lede">The tracker does five things, in order. It slices the sound into short windows, finds the pitch in each window, groups the voiced windows into syllables, turns each syllable into a shape on Chao's five-level scale, and picks the tone whose shape is nearest. Only the second step needs real mathematics, and it is a published method called YIN.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The tracker as a five-stage pipeline. A wave from the microphone is sliced into 40 millisecond windows; each window gives one pitch value, about a hundred a second; voiced runs are grouped into syllables; each syllable becomes a ten-point shape on the five-level scale relative to your calibrated voice; the shape is compared with the four tone shapes and the nearest wins.">
+        <defs>
+          <filter id="s3aSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="53" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="s3aHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#A61B29" stroke-width="1" opacity=".5"/></pattern>
+          <marker id="s3aAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#2A1216" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .s3aH { font: 800 12px Inter, sans-serif; fill: #2A1216; }
+          .s3aL { font: 700 11.5px Inter, sans-serif; fill: #2A1216; }
+          .s3aS { font: 400 11px Inter, sans-serif; fill: #6E4B50; }
+          .s3aB { font: 800 11px Inter, sans-serif; fill: #0A4A3E; }
+          .s3aW { font: 800 12px Inter, sans-serif; fill: #FFFFFF; }
+          .s3aN { font: 400 12px Inter, sans-serif; fill: #6E4B50; }
+        </style>
+
+        <text class="s3aH" x="30" y="26">FIVE STAGES FROM A MICROPHONE TO "TONE 3"</text>
+
+        <g filter="url(#s3aSk)" fill="none" stroke="#2A1216" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="30" y="60" width="150" height="120" rx="8" transform="rotate(-0.5 105 120)" fill="#FFFFFF"/>
+          <rect x="200" y="60" width="150" height="120" rx="8" transform="rotate(0.4 275 120)" fill="url(#s3aHc)"/>
+          <rect x="370" y="60" width="150" height="120" rx="8" transform="rotate(-0.4 445 120)" fill="#FFFFFF"/>
+          <rect x="540" y="60" width="150" height="120" rx="8" transform="rotate(0.5 615 120)" fill="#FDF2F3"/>
+          <rect x="710" y="60" width="150" height="120" rx="8" transform="rotate(-0.5 785 120)" fill="#E3F3EF" stroke="#0E6655"/>
+          <path d="M182 120 L196 120 M352 120 L366 120 M522 120 L536 120 M692 120 L706 120" marker-end="url(#s3aAr)"/>
+          <!-- a wave doodle in stage 1 -->
+          <path d="M46 132 C56 112 64 152 74 132 C84 112 92 152 102 132 C112 112 120 152 130 132 C140 112 148 152 160 132" stroke="#A61B29"/>
+          <!-- pitch dots in stage 3 -->
+          <path d="M386 150 L404 148 L422 142 L440 132 L458 120 L476 110 L494 104" stroke="#A61B29" stroke-dasharray="1 7" stroke-width="4"/>
+          <!-- a dipping contour in stage 4 -->
+          <path d="M556 112 C580 138 600 146 620 140 C640 132 656 108 672 96" stroke="#A61B29" stroke-width="3"/>
+        </g>
+
+        <text class="s3aL" x="44" y="84">1 · Slice</text>
+        <text class="s3aS" x="44" y="164">40 ms windows</text>
+        <text class="s3aL" x="214" y="84">2 · Find the pitch</text>
+        <text class="s3aS" x="214" y="104">YIN: the delay at</text>
+        <text class="s3aS" x="214" y="120">which the wave best</text>
+        <text class="s3aS" x="214" y="136">repeats itself</text>
+        <text class="s3aS" x="214" y="164">about 100 a second</text>
+        <text class="s3aL" x="384" y="84">3 · Syllables</text>
+        <text class="s3aS" x="384" y="164">split at silence</text>
+        <text class="s3aL" x="554" y="84">4 · Shape</text>
+        <text class="s3aS" x="554" y="164">10 points, levels 1-5</text>
+        <text class="s3aL" x="724" y="84">5 · Nearest tone</text>
+        <text class="s3aB" x="724" y="112">tone 3: dipping</text>
+        <text class="s3aS" x="724" y="132">distance to each</text>
+        <text class="s3aS" x="724" y="148">of the five shapes</text>
+
+        <text class="s3aN" x="30" y="214">Stage 4 is where the methods differ: what counts as "level 5" depends on whose voice the scale is measured against.</text>
+        <text class="s3aN" x="30" y="234">The rest of the page is about that one stage.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - stages 1 to 3 are the same for every method on the bench; only stage 4 changes</figcaption>
+    </figure>
+
+    <details class="card" open>
+      <summary><span class="mode live">Live</span>What YIN does, in one paragraph<span class="mini">3 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>A voiced sound repeats itself: the wave that leaves your throat on a steady pitch has the same shape every few milliseconds. YIN, published by de Cheveigné and Kawahara in 2002, slides a copy of each short window against itself and looks for the smallest delay at which the copy lines up with the original. That delay is one period of the voice; one divided by it is the pitch. A window with no clear repeat, such as a breath or the hiss of an s, has no pitch and is marked unvoiced, which is how the tracker finds where syllables begin and end.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>What the trainer cannot hear<span class="mini">2 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>It scores pitch shape and nothing else. It cannot tell a q from a ch, an an from an ang, or whether a syllable was too long; it does not know which word you meant. A real voice also adds creak at the bottom of a third tone and small pitch bumps from consonants, which the synthetic bench voices do not have, so the bench claims only the ordering of the methods, never an accuracy for real speech. Use the trainer for tones, and a teacher or a native speaker for everything else.</p>
+      </div>
+    </details>
+
+    <div class="callout example">
+      <span class="ex-pill">Real world</span>
+      <p><strong>"Your pitch is too low."</strong> A constructed case with a familiar shape. A Lumen engineer with a deep voice tried a free tone app that compared his pitch with a recorded female teacher's, in hertz. It marked nearly every fourth tone wrong because his "high" start was lower than her middle. He concluded he had a bad ear. His shapes were fine; the app was measuring height. The bench below counts what that method does to a lower voice.</p>
+    </div>
+  </section>
+
+  <section class="section" id="bench">
+    <div class="section-kicker">
+      <span class="klabel">Build-along · the bench</span>
+      <h2>Four voices, five ways of scoring, then yours</h2>
+      <span class="tag demo">★ 26 min · the main event</span>
+    </div>
+    <p class="lede">The table is computed when the page loads. Each synthetic voice says all twelve phrases with the tones a native speaker uses, and the table counts how many of the 23 scored tones each method hears as intended; then each voice says every phrase again with one tone deliberately wrong, and the table counts how many of those 12 mistakes each method catches. Read across a row to see what a method does to different voices; read down a column to see what changing the method does to one voice.</p>
+
+    <div id="tone-bench"></div>
+
+    <div class="callout tip">
+      <p><strong>Read the lower voice's column first.</strong> The first row is the method many free apps use, and it is the row where a deep voice saying every tone correctly is told it got most of them wrong. Then calibrate and try your own voice below, with the twelve words from session 1.</p>
+    </div>
+
+    <div id="tone-practice"></div>
+  </section>
+
+  <section class="section" id="part-2">
+    <div class="section-kicker">
+      <span class="klabel">Part 2 · covers what the bench finds</span>
+      <h2>Shape, not height</h2>
+      <span class="tag concept">5 min live</span>
+    </div>
+    <p class="lede">The bench above computes these live; the numbers here are the ones it produces, written down so they can be argued with after class. Change a speaker or a phrase in the script and they move. The ordering does not.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bar chart for the lower synthetic voice, right tones heard right out of 23, by scoring method: raw pitch in hertz 6; semitones from the speaker's middle 23; relative and range-scaled with calibration 23; the same without calibration 21; calibrated but scored against dictionary tones 18. A second column shows the narrow-range voice: 6, 19, 23, 21, 18.">
+        <defs>
+          <filter id="s3bSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="59" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <pattern id="s3bHc" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="7" stroke="#A61B29" stroke-width="1" opacity=".5"/></pattern>
+        </defs>
+        <style>
+          .s3bH { font: 800 12px Inter, sans-serif; fill: #2A1216; }
+          .s3bL { font: 600 12px Inter, sans-serif; fill: #2A1216; }
+          .s3bS { font: 400 11px Inter, sans-serif; fill: #6E4B50; }
+          .s3bB { font: 800 11px Inter, sans-serif; fill: #0A4A3E; }
+          .s3bR { font: 800 11px Inter, sans-serif; fill: #991B1B; }
+          .s3bV { font: 800 13px Inter, sans-serif; fill: #7A1420; }
+          .s3bN { font: 400 12px Inter, sans-serif; fill: #6E4B50; }
+        </style>
+
+        <text class="s3bH" x="30" y="26">RIGHT TONES HEARD RIGHT, OUT OF 23</text>
+        <text class="s3bS" x="30" y="44">wide bar = lower voice (115 Hz) · thin bar = narrow-range voice · 12 px per tone, from x = 300</text>
+
+        <g filter="url(#s3bSk)" fill="none" stroke="#2A1216" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M300 60 L300 296" stroke="#E6CDD0"/>
+          <path d="M576 60 L576 196" stroke="#0E6655" stroke-dasharray="5 4"/>
+          <!-- rows: y 70, 116, 162, 208, 254; wide bar h 20, thin bar h 6 below -->
+          <rect x="300" y="70" width="72" height="20" rx="3" fill="#FEF2F2" stroke="#991B1B"/>
+          <rect x="300" y="94" width="72" height="6" rx="3" fill="#991B1B" stroke="#991B1B"/>
+          <rect x="300" y="116" width="276" height="20" rx="3" fill="url(#s3bHc)"/>
+          <rect x="300" y="140" width="228" height="6" rx="3" fill="#A61B29" stroke="#A61B29"/>
+          <rect x="300" y="162" width="276" height="20" rx="3" fill="#0E6655" stroke="#0E6655"/>
+          <rect x="300" y="186" width="276" height="6" rx="3" fill="#0E6655" stroke="#0E6655"/>
+          <rect x="300" y="208" width="252" height="20" rx="3" fill="url(#s3bHc)"/>
+          <rect x="300" y="232" width="252" height="6" rx="3" fill="#A61B29" stroke="#A61B29"/>
+          <rect x="300" y="254" width="216" height="20" rx="3" fill="#FEF2F2" stroke="#991B1B"/>
+          <rect x="300" y="278" width="216" height="6" rx="3" fill="#991B1B" stroke="#991B1B"/>
+        </g>
+
+        <text class="s3bL" x="290" y="85" text-anchor="end">Raw pitch in hertz</text>
+        <text class="s3bV" x="384" y="85">6</text>
+        <text class="s3bS" x="402" y="85">narrow voice: 6</text>
+        <text class="s3bL" x="290" y="131" text-anchor="end">From your own middle</text>
+        <text class="s3bV" x="588" y="131">23</text>
+        <text class="s3bS" x="616" y="131">narrow voice: 19</text>
+        <text class="s3bL" x="290" y="177" text-anchor="end">Range-scaled, calibrated</text>
+        <text class="s3bV" x="588" y="177">23</text>
+        <text class="s3bB" x="616" y="177">narrow voice: 23</text>
+        <text class="s3bL" x="290" y="223" text-anchor="end">Same, no calibration</text>
+        <text class="s3bV" x="564" y="223">21</text>
+        <text class="s3bS" x="592" y="223">公司 (gōngsī, company) both missed</text>
+        <text class="s3bL" x="290" y="269" text-anchor="end">Dictionary tones</text>
+        <text class="s3bV" x="528" y="269">18</text>
+        <text class="s3bR" x="556" y="269">5 correct tone changes marked wrong</text>
+
+        <text class="s3bN" x="30" y="318">The dashed line marks all 23. Only the calibrated, range-scaled method reaches it for every voice on the bench.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - the first bar is what a hertz-based app tells a deep voice that said every tone correctly</figcaption>
+    </figure>
+
+    <table class="clean">
+      <tr><th>Scoring method</th><th>Higher voice</th><th>Lower voice</th><th>Narrow range</th><th>Wide range</th><th>Mistakes caught</th></tr>
+      <tr><td><strong>Raw pitch in hertz</strong>, one template voice</td><td>23</td><td><strong>6</strong></td><td><strong>6</strong></td><td>23</td><td>12, 7, 7, 12</td></tr>
+      <tr><td>Semitones from your own middle</td><td>23</td><td>23</td><td>19</td><td>23</td><td>12 of 12 each</td></tr>
+      <tr><td><strong>Range-scaled, calibrated</strong> (the trainer)</td><td><strong>23</strong></td><td><strong>23</strong></td><td><strong>23</strong></td><td><strong>23</strong></td><td>12 of 12 each</td></tr>
+      <tr><td>Same, judging each phrase on its own</td><td>21</td><td>21</td><td>21</td><td>21</td><td>12 of 12 each</td></tr>
+      <tr><td><strong>Calibrated, but dictionary tones</strong></td><td>18</td><td>18</td><td>18</td><td>18</td><td>12 of 12 each</td></tr>
+    </table>
+    <p class="mono" style="margin-top:6px">Right tones heard right, of 23 scored; mistakes caught, of 12. Computed in your browser on four synthetic voices; with background noise added the trainer's method still scores 115 of 115 across five runs.</p>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>Finding 1: hertz punishes the lower and the narrower voice<span class="mini">2 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>A method that compares raw pitch with one template voice is right for voices near that template and wrong for everyone else. On the bench it scores the higher voice 23 of 23 and the lower voice 6 of 23, though both said exactly the same shapes, and it catches only 7 of the lower voice's 12 real mistakes. Measuring each syllable in semitones from the speaker's own middle fixes the lower voice. Scaling to the speaker's own range as well fixes the narrow-range voice, the person who speaks with little pitch movement, who otherwise loses 4 tones.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>Finding 2: a word on one level needs your profile<span class="mini">2 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>公司 (gōngsī, company) is two first tones: high and level, twice. Judged on its own, a phrase with no pitch movement has no range to measure, so the method cannot tell "high and level" from "middle and level", and both syllables are missed. Calibrating once, on mā má mǎ mà (the four tones on one syllable), gives the trainer your middle and your range, and every phrase after that is judged against them. It is the difference between 21 and 23, and it is why the practice tool asks for calibration first.</p>
+      </div>
+    </details>
+  </section>
+
+  <section class="section" id="part-3">
+    <div class="section-kicker">
+      <span class="klabel">Part 3 · covers the anti-lever</span>
+      <h2>Scoring the dictionary tones marks fluent speech wrong</h2>
+      <span class="tag concept">4 min live</span>
+    </div>
+    <p class="lede">The obvious way to build a checker is to look up each character's tone and score against it. The bench counts what that does: five syllables a native speaker says correctly, every first syllable of a tone change, are marked wrong, and the learner is pushed toward the careful, slightly foreign pronunciation of each character said alone.</p>
+
+    <figure class="zoomable">
+      <svg viewBox="0 0 880 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A hand-drawn exchange. A speaker says ní hǎo correctly. Two checkers listen. The dictionary checker expects nǐ hǎo, third plus third, and marks the first syllable wrong. The surface checker applies the tone-change rule, expects ní hǎo, and marks both right. Below, the five syllables the dictionary checker gets wrong on the bench are listed.">
+        <defs>
+          <filter id="s3cSk" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="61" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+          <marker id="s3cAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#2A1216" stroke-width="1.6" stroke-linecap="round"/></marker>
+        </defs>
+        <style>
+          .s3cH { font: 800 12px Inter, sans-serif; fill: #2A1216; }
+          .s3cL { font: 600 11.5px Inter, sans-serif; fill: #2A1216; }
+          .s3cS { font: 400 11px Inter, sans-serif; fill: #6E4B50; }
+          .s3cB { font: 800 11px Inter, sans-serif; fill: #0A4A3E; }
+          .s3cR { font: 800 11px Inter, sans-serif; fill: #991B1B; }
+          .s3cZ { font: 800 24px sans-serif; fill: #2A1216; }
+          .s3cN { font: 400 12px Inter, sans-serif; fill: #6E4B50; }
+        </style>
+
+        <text class="s3cH" x="30" y="26">ONE CORRECT GREETING, TWO CHECKERS</text>
+
+        <g filter="url(#s3cSk)" fill="none" stroke="#2A1216" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="80" cy="96" r="16"/>
+          <path d="M50 150 C56 122 104 122 110 150"/>
+          <rect x="130" y="66" width="190" height="64" rx="10" transform="rotate(-0.5 225 98)" fill="#FFFFFF"/>
+          <path d="M326 92 C380 92 400 70 450 70" marker-end="url(#s3cAr)"/>
+          <path d="M326 106 C380 106 400 150 450 150" marker-end="url(#s3cAr)"/>
+          <rect x="460" y="44" width="390" height="56" rx="8" transform="rotate(0.4 655 72)" fill="#FEF2F2" stroke="#991B1B"/>
+          <rect x="460" y="124" width="390" height="56" rx="8" transform="rotate(-0.4 655 152)" fill="#E3F3EF" stroke="#0E6655"/>
+          <rect x="30" y="204" width="820" height="50" rx="8" transform="rotate(0.2 440 229)" fill="#FDF2F3"/>
+        </g>
+
+        <text class="s3cZ" x="142" y="104">你好</text>
+        <text class="s3cL" x="202" y="92">(nǐ hǎo, hello)</text>
+        <text class="s3cS" x="202" y="110">said ní hǎo, correctly</text>
+        <text class="s3cR" x="474" y="66">DICTIONARY CHECKER</text>
+        <text class="s3cS" x="474" y="84">expects 3 + 3 · hears 2 on the first syllable · marks it wrong</text>
+        <text class="s3cB" x="474" y="146">SURFACE CHECKER (the trainer)</text>
+        <text class="s3cS" x="474" y="164">applies 3 + 3 → 2 + 3 first · expects 2 + 3 · both right</text>
+        <text class="s3cL" x="44" y="226">The five syllables the dictionary checker marks wrong on every bench voice:</text>
+        <text class="s3cS" x="44" y="244">the first syllable of nǐ hǎo, lǎobǎn, bù shì, yīdìng and yīqǐ, each said with its changed tone</text>
+
+        <text class="s3cN" x="30" y="278">A checker that never applies the rules teaches the learner to stop applying them.</text>
+      </svg>
+      <figcaption>🔍 Click to zoom - the red box is the obvious design, and it trains the wrong habit</figcaption>
+    </figure>
+
+    <details class="card">
+      <summary><span class="mode live">Live</span>Why the obvious checker is the wrong one<span class="mini">2 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>A learner who is marked wrong for saying ní hǎo will try saying nǐ hǎo with two full third tones, which is harder to say and sounds stilted to a native listener. The checker's error becomes the learner's habit. The trainer applies the three tone-change rules from session 1 to the phrase first, then scores against the tones a native speaker actually produces; the five syllables the dictionary checker rejects are exactly the ones it accepts.</p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary><span class="mode self">Self-study</span>The honest limit: when dictionary tones are what you want<span class="mini">2 min</span><span class="caret">▶</span></summary>
+      <div class="body">
+        <p>Learning a new word, you need its dictionary tone: that is what you look up, and it is what you will see written in standard pinyin. The trainer's practice list shows both, the dictionary tones and the tones as said, for every phrase. The rule is simple: learn the word by its dictionary tone, say the phrase by its spoken tone, and score the phrase by the spoken tone.</p>
+      </div>
+    </details>
+
+    <div class="callout example">
+      <span class="ex-pill">Real world</span>
+      <p><strong>The careful greeter.</strong> A constructed case. After a month with a dictionary-tone app, a Lumen manager greeted the Shanghai team with a slow, perfectly dipped nǐ, then hǎo. It was understood at once and sounded like a recording. Nobody corrected him; the Shanghai side switched to English, which is the quiet signal that a learner sounds effortful. One evening on the surface rules, and his 你好 (nǐ hǎo, hello) sounded like everyone else's.</p>
+    </div>
+  </section>
+
+  <section class="section" id="exercise">
+    <div class="section-kicker">
+      <span class="klabel">Homework</span>
+      <h2>Before session 4</h2>
+      <span class="tag exercise">30 min</span>
+    </div>
+    <ol>
+      <li><strong>Calibrate, then say the twelve words</strong> on three different days. Write the score each day and the one tone you miss most.</li>
+      <li><strong>Drill your weakest tone</strong> in pairs: if it is the third, alternate 买 (mǎi, buy) and 卖 (mài, sell); if the second, 十 (shí, ten) against 是 (shì, to be, yes).</li>
+      <li><strong>Read the five tone changes aloud</strong> until the changed tone comes without thinking: ní hǎo, láobǎn, bú shì, yídìng, yìqǐ.</li>
+      <li><strong>Bring a price and a date</strong> from your own work. Session 4 is numbers, money, dates and times, where tone mistakes become wrong quantities.</li>
+    </ol>
+  </section>
+
+  <section class="section" id="quiz">
+    <div class="section-kicker">
+      <span class="klabel">Check yourself</span>
+      <h2>Three questions</h2>
+    </div>
+    <p>Clear all three and session 3 gets stamped in your passport.</p>
+
+    <div class="quiz-q" data-answer="2">
+      <p class="qtext">1 · A tone app compares your pitch in hertz with a recorded teacher's. Your voice is much lower than hers. What does the bench predict?</p>
+      <button class="qopt" type="button">A · Nothing; hertz is the most precise measure</button>
+      <button class="qopt" type="button">B · It will mark you right more often, because lower is easier to track</button>
+      <button class="qopt" type="button">C · It will mark many correct tones wrong: on the bench a lower voice saying every tone correctly scored 6 of 23 by raw hertz, and 23 of 23 when the shape was measured from its own middle and range</button>
+      <button class="qopt" type="button">D · It will work if you speak more loudly</button>
+      <p class="qwhy">Tones are shapes relative to your own voice. A method that measures height against one template voice confuses "a lower voice" with "a lower tone", which is why "your pitch is too low" is never useful tone feedback.</p>
+    </div>
+
+    <div class="quiz-q" data-answer="0">
+      <p class="qtext">2 · Why does the trainer ask you to say mā má mǎ mà before anything else?</p>
+      <button class="qopt" type="button">A · To learn your middle pitch and your range, so a phrase with no pitch movement of its own, such as 公司 (gōngsī, company), can still be placed: without calibration both its syllables were missed</button>
+      <button class="qopt" type="button">B · To test the microphone volume</button>
+      <button class="qopt" type="button">C · Because the four tones must always be practised in that order</button>
+      <button class="qopt" type="button">D · To record a sample that is sent to a server</button>
+      <p class="qwhy">Two first tones are level and high; with nothing else to compare against, "high" cannot be told from "middle". Your calibration is that comparison. Nothing is uploaded: the recording stays in the page.</p>
+    </div>
+
+    <div class="quiz-q" data-answer="3">
+      <p class="qtext">3 · A checker scores every phrase against the dictionary tone of each character. What goes wrong?</p>
+      <button class="qopt" type="button">A · Nothing; dictionary tones are always right</button>
+      <button class="qopt" type="button">B · It becomes slower</button>
+      <button class="qopt" type="button">C · It cannot read pinyin</button>
+      <button class="qopt" type="button">D · It marks correct tone changes wrong: on the bench five syllables a native speaker says correctly, the first of nǐ hǎo, lǎobǎn, bù shì, yīdìng and yīqǐ, were rejected, which pushes a learner toward stilted pronunciation</button>
+      <p class="qwhy">Learn a word by its dictionary tone; score a phrase by its spoken tone. The trainer applies the three rules first and shows you both, so you see the change rather than being marked down for making it.</p>
+    </div>
+
+    <p class="quiz-score"></p>
+  </section>
+
+  <section class="section" id="official">
+    <div class="section-kicker">
+      <span class="klabel">Sources covered</span>
+      <h2>What this session teaches, and where it came from</h2>
+    </div>
+    <div class="covered">
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The YIN pitch estimator</span><span class="note">Alain de Cheveigné and Hideki Kawahara, "YIN, a fundamental frequency estimator for speech and music", Journal of the Acoustical Society of America 111(4), 2002, read at source</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">Every count on the bench</span><span class="note">Computed in your browser by the tracker, and verified headlessly in node before any page quoted a number; the two agree</span></div>
+      <div class="covered-row"><span class="status pill solid">✓</span><span class="name">The tone shapes and the third-tone change</span><span class="note">Chao's values and the third-tone rule, as confirmed in a published phonology paper (see session 1)</span></div>
+      <div class="covered-row"><span class="status pill light">◐</span><span class="name">The four bench voices</span><span class="note">Synthetic hums inside the usual adult speaking ranges, reported from Baken's clinical voice tables; they are not recordings, and the bench claims the ordering of the methods, not an accuracy for real speech</span></div>
+    </div>
+    <p class="mono" style="margin-top:14px">Every fact on this page, and its verification tier, is recorded in the course's source map.</p>
+  </section>
+
+  <section class="cheat" id="cheatsheet">
+    <h3>Session 3 cheat sheet <span>· pin this</span></h3>
+    <div class="grid-2">
+      <div class="cheat-item"><b>Five stages</b><span>Slice · find the pitch (YIN) · syllables · shape · nearest tone.</span></div>
+      <div class="cheat-item"><b>Shape, not height</b><span>Raw hertz: a lower voice 6 of 23. Your own middle and range: 23 of 23.</span></div>
+      <div class="cheat-item"><b>Calibrate first</b><span>mā má mǎ mà once. It is what lets 公司 (gōngsī, company) be scored.</span></div>
+      <div class="cheat-item"><b>Score the spoken tone</b><span>Dictionary tones reject five correct tone changes.</span></div>
+      <div class="cheat-item"><b>Learn vs say</b><span>Learn a word by its dictionary tone; say and score a phrase by its spoken tone.</span></div>
+      <div class="cheat-item"><b>What it cannot hear</b><span>Vowels, consonants, length, meaning. Tones only.</span></div>
+    </div>
+  </section>
+
+  <div class="callout next">
+    <span class="nx-pill">Next session</span>
+    <p>Tones carry the most weight in numbers. 十 (shí, ten) and 四 (sì, four) differ in tone and initial, and a price misheard by a factor of two or a date off by a week costs more than any greeting. Session 4 is numbers, money, dates and times, including 万 (wàn, ten thousand), the unit that makes Chinese prices read differently from English ones.</p>
+  </div>
+
+  <footer class="pagefoot">
+    <span>Session 3 of 6 · learn-business-chinese-basic-with-phoebe · by Phoebe Fu &nbsp;·&nbsp; 📚 <a href="https://phoebefu6.github.io/learn-with-phoebe/">Learn with Phoebe ↗</a></span>
+    <span><a href="02-names-titles-and-cards.html">← Prev: Names, titles and business cards</a> &nbsp;·&nbsp; <a href="04-numbers-money-dates.html">Next: Numbers, money, dates and times →</a></span>
+  </footer>
+
+</main>
+
+<script src="../assets/tone-live.js?v=1"></script>
+<script src="../assets/app.js?v=1"></script>
+</body>
+</html>
